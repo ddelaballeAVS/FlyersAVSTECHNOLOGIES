@@ -1,0 +1,1446 @@
+﻿<!DOCTYPE html>
+<html lang="fr"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title>AVS Technologies</title>
+<link rel="preconnect" href="https://fonts.googleapis.com/"><link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin=""><link href="https://fonts.googleapis.com/css2?family=Barlow:wght@300;700;800&family=Barlow+Condensed:wght@700;800;900&family=Bebas+Neue&display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Bungee&family=Oswald&family=Permanent+Marker&family=Righteous&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  font-family: 'Barlow', sans-serif;
+  background: #0A1628;
+  display: flex; flex-direction: column; align-items: center;
+  padding: 50px 20px; gap: 60px;
+}
+
+.page-label {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 12px; letter-spacing: 6px; color: rgba(255,255,255,0.25);
+  margin-bottom: -48px;
+}
+
+.a4 {
+  width: 297mm; height: 210mm;
+  display: flex;
+  box-shadow: 0 40px 100px rgba(0,0,0,0.85), 0 0 0 1px rgba(212,175,55,0.18);
+  overflow: hidden; position: relative;
+}
+
+.panel {
+  width: 99mm; height: 210mm;
+  position: relative; overflow: hidden; flex-shrink: 0;
+}
+
+.a4::before, .a4::after {
+  content: ''; position: absolute;
+  top: 0; bottom: 0; width: 2px;
+  background: linear-gradient(180deg, rgba(212,175,55,0.5), rgba(212,175,55,0.1));
+  z-index: 200; pointer-events: none;
+}
+.a4::before { left: 99mm; }
+.a4::after  { left: 198mm; }
+
+/* ══════════════════
+   FOND PANORAMIQUE
+══════════════════ */
+.wall {
+  position: absolute; inset: 0;
+  background: url("FOND.jpeg") center/cover no-repeat;
+}
+.svc-panel .wall   { background-size: 297mm auto; background-position: 0mm center; }
+.co-panel .wall    { background-size: 297mm auto; background-position: -99mm center; }
+.cover-panel .wall { background-size: 297mm auto; background-position: -198mm center; }
+.vl-panel .wall    { background-size: 297mm auto; background-position: 0mm center; }
+.vd-panel .wall    { background-size: 297mm auto; background-position: -198mm center; }
+.vb-panel .wall    { background-size: 297mm auto; background-position: -99mm center; }
+.vb-panel .overlay { background: linear-gradient(135deg, rgba(10,22,40,0.75), rgba(15,40,100,0.65)); }
+
+
+
+/* Overlay bleu cobalt inspiré du spray du fond */
+.overlay {
+  position: absolute; inset: 0; z-index: 1;
+}
+.svc-panel .overlay   { background: rgba(15,40,100,0.82); }
+.co-panel .overlay    { background: rgba(255,255,255,0.88); }
+.cover-panel .overlay { background: rgba(15,40,100,0.55); }
+.vl-panel .overlay    { background: linear-gradient(135deg, rgba(15,23,42,0.92), rgba(30,41,59,0.88), rgba(15,23,42,0.92)); }
+.vd-panel .overlay    { background: linear-gradient(135deg, rgba(0,180,100,0.85), rgba(0,200,220,0.8)); }
+
+
+/* ══════════════════
+   ÉLÉMENTS GRAPHIQUES INSPIRÉS DU FOND
+   Éclaboussures de spray bleu
+══════════════════ */
+.spray-blob {
+  position: absolute; border-radius: 50%;
+  pointer-events: none; filter: blur(0px);
+}
+/* Gouttes de spray style fond */
+.drops {
+  position: absolute; pointer-events: none; z-index: 2;
+  width: calc(100% - 16px); margin: 0 8px; height: 100%;
+}
+.drops::before, .drops::after {
+  content: '';
+  position: absolute; border-radius: 50%;
+}
+
+/* ══════════════════
+   VOLET GAUCHE — SERVICES
+   Bleu cobalt + blanc
+══════════════════ */
+
+/* Splash blob bleu clair en haut droite */
+.svc-blob {
+  position: absolute; z-index: 2; pointer-events: none;
+  width: 180px; height: 140px;
+  background: radial-gradient(ellipse, rgba(212,175,55,0.45) 0%, rgba(212,175,55,0.12) 50%, transparent 75%);
+  top: -30px; right: -30px;
+  filter: blur(2px);
+}
+/* Trait diagonal noir style tag */
+.svc-tag-line {
+  position: absolute; z-index: 2; pointer-events: none;
+  top: 0; left: 14px; width: 5px; height: 100%;
+  clip-path: polygon(0 0, 100% 0, 85% 100%, 0% 100%);
+  opacity: 0.9;
+}
+
+.svc-inner {
+  position: relative; z-index: 3;
+  height: 100%; display: flex; flex-direction: column;
+  padding: 8px 16px 0 26px;
+}
+
+.svc-eyebrow {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 10px; font-weight: 800; letter-spacing: 5px;
+  text-transform: uppercase; color: rgba(255,255,255,0.6);
+  margin-bottom: 1px;
+}
+
+.svc-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 36px; line-height: 0.85;
+  color: white; letter-spacing: 3px;
+  text-transform: uppercase; margin-bottom: 10px;
+  text-shadow: 4px 4px 0 rgba(0,0,0,0.4);
+}
+.svc-title span {
+  display: block;
+  color: #5BB8FF;
+  text-shadow: 4px 4px 0 rgba(0,0,0,0.3), 0 0 30px rgba(91,184,255,0.4);
+  -webkit-text-stroke: 0.5px rgba(255,255,255,0.2);
+}
+
+/* Filet blanc */
+.filet {
+  width: 100%; height: 2px;
+  background: linear-gradient(90deg, #D4AF37, rgba(212,175,55,0.1));
+  margin: 4px 0;
+}
+
+.svc-cards { display: flex; flex-direction: column; gap: 10px; flex: 1; overflow: visible; }
+
+.svc-card {
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px 12px; min-height: 35px;
+  flex: 1 1 0;
+  min-height: 0;
+  width: 100%;
+  box-sizing: border-box;
+  border: none;
+  border-radius: 12px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 5px 6px 15px rgba(0,0,0,0.8) !important;
+}
+/* Effet drip supprime */
+
+
+
+/* Couleurs individuelles par carte */
+.svc-card.c1 { background: linear-gradient(135deg, #1E88E5, #64B5F6); border-left-color: #FFF; }
+.svc-card.c2 { background: linear-gradient(135deg, #FF3D00, #FF6E40); border-left-color: #FFF; }
+.svc-card.c3 { background: linear-gradient(135deg, #00E5FF, #18FFFF); border-left-color: #FFF; }
+.svc-card.c10 { background: linear-gradient(135deg, #FF1744, #FF5252); border-left-color: #FFF; }
+.svc-card.c4 { background: linear-gradient(135deg, #FFAB00, #FFD740); border-left-color: #FFF; }
+.svc-card.c5 { background: linear-gradient(135deg, #D500F9, #E040FB); border-left-color: #FFF; }
+.svc-card.c6 { background: linear-gradient(135deg, #00E676, #69F0AE); border-left-color: #FFF; }
+.svc-card.c7 { background: linear-gradient(135deg, #FF4081, #FF80AB); border-left-color: #FFF; }
+.svc-card.c8 { background: linear-gradient(135deg, #3D5AFE, #536DFE); border-left-color: #FFF; }
+.svc-card.c9 { background: linear-gradient(135deg, #1DE9B6, #64FFDA); border-left-color: #FFF; }
+
+.svc-ico {
+  width: 55px; height: 55px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px; overflow: hidden;
+  border-radius: 50%;
+  background: #fff; box-shadow: 0 0 15px rgba(0,170,255,0.8), 0 0 30px rgba(0,150,255,0.4); border: 3px solid #00bfff;
+}
+
+
+.svc-ico img { width:44px; height:44px; object-fit:contain; opacity: 0.9; }
+.svc-card.c1 .svc-ico img { width:50px !important; height:50px !important; object-fit:contain !important; }
+.svc-card.c2 .svc-ico img { width:68px; height:68px; }
+.svc-card.c3 .svc-ico img { width:44px !important; height:44px !important; object-fit:contain !important; }
+.svc-card.c4 .svc-ico img { width:38px !important; height:38px !important; object-fit:contain !important; }
+.svc-card.c5 .svc-ico img { width:44px !important; height:44px !important; object-fit:contain !important; }
+.svc-card.c9 .svc-ico img { width:44px !important; height:44px !important; object-fit:contain !important; }
+.svc-card.c6 .svc-ico img { width:40px !important; height:40px !important; object-fit:contain !important; }
+.svc-card.c8 .svc-ico img { width:50px !important; height:50px !important; object-fit:contain !important; }
+.svc-card.c10 .svc-ico img { width:40px !important; height:40px !important; object-fit:contain !important; }
+.svc-card.c7 .svc-ico img { width:40px !important; height:40px !important; object-fit:contain !important; }
+
+.svc-info h3 {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 14px; font-weight: 800; color: black;
+  text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 2px;
+}
+.svc-info p { font-size: 11px; color: rgba(0,0,0,0.85); line-height: 1.3; font-weight: 300; }
+
+/* Footer style bande blanche */
+.svc-footer {
+  background: white;
+  margin: 10px -16px 0 -26px;
+  padding: 10px 16px 10px 26px;
+  display: flex; align-items: center; justify-content: space-between;
+  clip-path: polygon(0 8px, 100% 0, 100% 100%, 0 100%);
+}
+.svc-footer p {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 17px; color: #0F2864; letter-spacing: 2px;
+}
+.svc-footer span {
+  font-size: 11px; color: #0F2864; font-weight: 700; letter-spacing: 1px;
+}
+
+/* ══════════════════
+   VOLET CENTRE — SOCIÉTÉ
+   Fond blanc comme les briques du mur
+══════════════════ */
+
+/* Splash bleu en coin style fond */
+.co-blob {
+  position: absolute; z-index: 2; pointer-events: none;
+  width: 220px; height: 180px;
+  background: radial-gradient(ellipse, rgba(30,100,255,0.2) 0%, rgba(30,100,255,0.06) 55%, transparent 75%);
+  top: -50px; right: -60px;
+  filter: blur(3px);
+}
+.co-blob2 {
+  position: absolute; z-index: 2; pointer-events: none;
+  width: 160px; height: 130px;
+  background: radial-gradient(ellipse, rgba(30,100,255,0.12) 0%, transparent 70%);
+  bottom: -40px; left: -40px;
+  filter: blur(5px);
+}
+
+/* Bande bleue en haut style éclaboussure */
+.co-topband {
+  position: absolute; top: 0; left: 0; right: 0; z-index: 3;
+  height: 7px;
+  background: #1A4DB5;
+  clip-path: polygon(0 0, 100% 0, 100% 60%, 85% 100%, 70% 60%, 55% 100%, 40% 55%, 25% 100%, 10% 60%, 0 100%);
+}
+
+.co-inner {
+  position: relative; z-index: 3;
+  padding: 18px 17px 0;
+  height: 100%; display: flex; flex-direction: column;
+}
+
+.co-eyebrow {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 10px; font-weight: 800; letter-spacing: 5px;
+  text-transform: uppercase; color: #9A7B1A; margin-bottom: 3px;
+}
+
+.co-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 32px; line-height: 0.88;
+  color: #0A1628; letter-spacing: 2px; text-transform: uppercase;
+  margin-bottom: 3px;
+  text-shadow: 2px 2px 0 rgba(0,0,0,0.1);
+}
+.co-title span {
+  display: block; color: #1A4DB5;
+  text-shadow: 2px 2px 0 rgba(0,0,0,0.1);
+}
+
+.filet-dark {
+  width: 100%; height: 2px;
+  background: linear-gradient(90deg, #D4AF37, rgba(212,175,55,0.08));
+  margin: 8px 0;
+}
+
+.co-desc { font-size: 11.5px; color: #334; line-height: 1.55; margin-bottom: 10px; }
+
+/* Stats style tag sur mur */
+.co-stats {
+  display: grid; grid-template-columns: 1fr 1fr 1fr;
+  gap: 5px; margin-bottom: 10px;
+}
+.co-stat {
+  padding: 9px 6px; text-align: center;
+  position: relative;
+  clip-path: polygon(4px 0, 100% 0, calc(100% - 4px) 100%, 0 100%);
+}
+.co-stat.s1 { background: linear-gradient(135deg, #C9A84C, #D4AF37); }
+.co-stat.s2 { background: #0A1628; }
+.co-stat.s3 { background: linear-gradient(135deg, #1A3A6A, #1A4DB5); }
+.co-stat-n {
+  display: block; font-family: 'Bebas Neue', sans-serif;
+  font-size: 24px; color: white; line-height: 1; letter-spacing: 1px;
+}
+.co-stat-l { display: block; font-size: 8.5px; color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 1px; margin-top: 2px; font-weight: 700; }
+
+.co-atout { display: flex; align-items: flex-start; gap: 9px; margin-bottom: 5px; }
+.co-check {
+  width: 16px; height: 16px; flex-shrink: 0;
+  background: #1A4DB5; color: white;
+  font-size: 10px; font-weight: 900; margin-top: 1px;
+  display: flex; align-items: center; justify-content: center;
+  clip-path: polygon(4px 0, 100% 0, calc(100% - 4px) 100%, 0 100%);
+}
+.co-atout p { font-size: 11px; color: #223; line-height: 1.35; }
+.co-atout strong { color: #0A1628; font-weight: 700; }
+
+.co-contact {
+  margin-top: auto;
+  background: #0A1628;
+  padding: 10px 20px 90px 16px;
+  clip-path: polygon(0 6px, 100% 0, 100% 100%, 0 100%);
+}
+.co-contact-hdr {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 18px; color: #D4AF37; letter-spacing: 4px; margin-bottom: 10px;
+}
+.co-line { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+.co-line .ic { font-size: 13px; width: 18px; flex-shrink: 0; }
+.co-line p { font-size: 12px; color: rgba(255,255,255,0.7); font-weight: 300; }
+.co-line strong { color: white; font-weight: 700; }
+.co-zone {
+  margin-top: 7px; text-align: center;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 11px; color: #D4AF37; letter-spacing: 3px;
+  border-top: 1px solid rgba(0,229,255,0.3); padding-top: 6px;
+}
+
+/* ══════════════════
+   VOLET DROITE — COUVERTURE
+   Overlay bleu léger → logo AVS visible
+══════════════════ */
+
+/* Gradient noir bas pour lisibilité texte */
+.cover-panel .overlay {
+  background: linear-gradient(
+    180deg,
+    rgba(15,40,100,0.15) 0%,
+    rgba(15,40,100,0.20) 35%,
+    rgba(15,40,100,0.75) 62%,
+    rgba(5,10,30,0.95) 100%
+  );
+}
+
+/* Bande blanche verticale gauche */
+.cv-bar {
+  position: absolute; left: 0; top: 0; bottom: 0; width: 6px; z-index: 4;
+  background: white;
+  clip-path: polygon(0 0, 100% 0, 80% 100%, 0 100%);
+}
+
+.cover-inner {
+  position: relative; z-index: 3;
+  display: flex; flex-direction: column; height: 100%;
+}
+
+/* Logo haut */
+.cover-topband {
+  padding: 14px 16px 0 20px;
+  display: flex; align-items: center; justify-content: space-between;
+  flex-shrink: 0;
+}
+.cover-logo-wrap { display: flex; align-items: center; gap: 9px; }
+.cover-logo-wrap img {
+  width: 38px; height: 38px; object-fit: contain;
+  filter: drop-shadow(0 2px 8px rgba(255,255,255,0.3));
+}
+.logo-name {
+  margin-top: 55px; margin-left: -12px;
+  display: block; font-family: 'Bebas Neue', sans-serif;
+  font-size: 27px; font-weight: 700; color: white;
+  text-transform: uppercase; letter-spacing: 4px;
+  line-height: 0.9;
+  text-shadow: 0 5px 20px rgba(0,0,0,1), 0 0 50px rgba(212,175,55,0.5), 4px 4px 0 rgba(0,0,0,0.7), 0 0 80px rgba(212,175,55,0.2);
+}
+.logo-sub {
+  display: block; font-size: 18px; color: #0F6FD0;
+  letter-spacing: 3px; text-transform: uppercase; margin-top: 4px;
+  font-family: 'Barlow Condensed', sans-serif; font-weight: 900;
+  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000, 0 0 30px rgba(15,111,208,0.7), 0 0 60px rgba(15,111,208,0.3);
+}
+
+/* Espace pour laisser voir le logo AVS du fond */
+.cover-spacer { flex: 1; }
+
+/* Grand titre bas */
+.cover-bottom {
+  padding: 0 16px 18px 20px;
+}
+
+/* Trait blanc style tag */
+.cover-rule {
+  width: 50px; height: 3px;
+  background: linear-gradient(90deg, #D4AF37, #C9A84C); margin-bottom: 8px;
+}
+
+.cover-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 48px; line-height: 0.85;
+  color: white; letter-spacing: 3px; text-transform: uppercase;
+  text-shadow: 4px 4px 0 rgba(0,0,0,0.5);
+  margin-bottom: 8px;
+}
+.cover-title .blue {
+  display: block; color: #5BB8FF;
+  text-shadow: 4px 4px 0 rgba(0,0,0,0.4), 0 0 25px rgba(91,184,255,0.35);
+}
+
+.cover-tagline {
+  font-size: 11px; color: rgba(255,255,255,0.65); line-height: 1.55;
+  border-left: 3px solid #D4AF37; padding-left: 10px;
+  margin-bottom: 12px; font-weight: 300;
+}
+
+.cover-pills {
+  display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 12px;
+}
+.pill {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 10px; font-weight: 700; letter-spacing: 1.5px;
+  text-transform: uppercase; padding: 4px 10px;
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.25); color: rgba(255,255,255,0.8);
+  clip-path: polygon(4px 0, 100% 0, calc(100%-4px) 100%, 0 100%);
+}
+.pill.hot {
+  background: linear-gradient(135deg, #D4AF37, #C9A84C); color: #0A1628; border-color: #D4AF37; font-weight: 800;
+}
+
+.cover-footer-line {
+  border-top: 1px solid rgba(212,175,55,0.4);
+  padding-top: 10px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.cover-phone {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 22px; color: white; letter-spacing: 3px;
+  text-shadow: 0 0 15px rgba(91,184,255,0.4);
+}
+.cover-sites {
+  font-size: 9px; color: rgba(255,255,255,0.4); font-weight: 300;
+  letter-spacing: 0.5px; line-height: 1.8; text-align: right;
+}
+
+
+/* ══════════════════════════════
+   VERSO
+══════════════════════════════ */
+
+/* ── VOLET 1 VERSO — ENCAISSEMENT & PAIEMENT ── */
+.vl-bar {
+  position: absolute; left: 0; top: 0; bottom: 0; width: 6px; z-index: 4;
+  background: linear-gradient(180deg, #3B82F6, #1D4ED8);
+  clip-path: polygon(0 0, 100% 0, 80% 100%, 0 100%);
+}
+.vl-blob {
+  position: absolute; z-index: 2;
+  width: 200px; height: 160px;
+  background: radial-gradient(ellipse, rgba(59,130,246,0.2) 0%, transparent 70%);
+  top: -40px; right: -50px; filter: blur(4px); pointer-events: none;
+}
+.vl-inner {
+  position: relative; z-index: 3;
+  padding: 12px 14px 0 22px; height: 100%; display: flex; flex-direction: column;
+}
+.vl-eyebrow { font-family: 'Barlow Condensed', sans-serif; font-size: 10px; font-weight: 800; letter-spacing: 5px; text-transform: uppercase; color: rgba(255,255,255,0.55); margin-bottom: 2px; }
+.vl-title {
+  font-family: 'Bebas Neue', sans-serif; font-size: 30px; color: white;
+  text-transform: uppercase; line-height: 0.88; margin-bottom: 6px; letter-spacing: 2px;
+  text-shadow: 3px 3px 0 rgba(0,0,0,0.4);
+}
+.vl-title span { color: #60A5FA; text-shadow: 3px 3px 0 rgba(0,0,0,0.3), 0 0 20px rgba(96,165,250,0.4); }
+
+.filet-enc {
+  width: 100%; height: 2px;
+  background: linear-gradient(90deg, #3B82F6, rgba(59,130,246,0.1));
+  margin: 4px 0 8px;
+}
+
+/* Grille produits 2x2 */
+.enc-grid {
+  display: flex; flex-direction: column; gap: 5px; flex: 1;
+}
+.enc-card.c-caisse { flex: 2.5; min-height: 0; margin-top: -8px; }
+.enc-card.c-borne, .enc-card.c-tpe, .enc-card.c-monn { flex-direction: row; flex: 0.7; min-height: 0; }
+.enc-card.c-tpe { flex: 0.35; }
+.enc-card.c-borne { flex: 0.45; }
+.enc-card.c-monn { flex: 0.45; }
+.enc-card {
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(8px);
+  border-radius: 16px; overflow: hidden;
+  display: flex; flex-direction: column;
+  border: 1px solid rgba(255,255,255,0.12);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+  position: relative;
+  transition: all 0.3s ease;
+}
+.enc-card-img {
+  width: 100%; height: 80px;
+  object-fit: contain; padding: 6px;
+  background: #ffffff;
+  border-bottom: 2px solid;
+}
+.enc-card.c-borne .enc-card-img,
+.enc-card.c-tpe .enc-card-img,
+.enc-card.c-monn .enc-card-img {
+  width: 70px; height: auto; border-bottom: none; border-right: 2px solid;
+}
+.enc-card.c-caisse .enc-card-img { border-bottom-color: #3B82F6; }
+.enc-card.c-borne .enc-card-img  { border-bottom-color: #2563EB; background: #ffffff; }
+.enc-card.c-tpe .enc-card-img    { border-bottom-color: #60A5FA; background: #ffffff; }
+.enc-card.c-monn .enc-card-img   { border-bottom-color: #1D4ED8; background: #ffffff; }
+
+.enc-card-body { padding: 6px 8px 7px; flex: 1; display: flex; flex-direction: column; }
+.enc-card-body h3 {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 13px; font-weight: 800; color: white;
+  text-transform: uppercase; letter-spacing: 0.5px; line-height: 1; margin-bottom: 3px;
+}
+.enc-card-body p { font-size: 9.5px; color: rgba(255,255,255,0.55); line-height: 1.3; font-weight: 300; }
+.enc-card-tag {
+  display: inline-block; margin-top: auto; padding-top: 4px;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 8.5px; font-weight: 700; letter-spacing: 1px;
+  text-transform: uppercase; color: #60A5FA;
+}
+
+/* Footer Logic'S */
+.enc-footer {
+  margin: 8px -14px 0 -22px;
+  background: linear-gradient(90deg, #3B82F6, #1D4ED8);
+  border-top: none;
+  padding: 8px 14px 8px 22px;
+  display: flex; align-items: center; justify-content: space-between;
+  clip-path: polygon(0 6px, 100% 0, 100% 100%, 0 100%);
+}
+.enc-footer-left {
+  display: flex; align-items: center; gap: 6px;
+}
+.enc-footer-ico {
+  width: 22px; height: 22px;
+  background: rgba(255,255,255,0.2);
+  border: 1px solid rgba(255,255,255,0.3);
+  display: flex; align-items: center; justify-content: center; font-size: 11px;
+  border-radius: 6px;
+}
+.enc-footer p {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 14px; color: white; letter-spacing: 2px;
+}
+.enc-footer span {
+  font-size: 9px; color: rgba(255,255,255,0.4); letter-spacing: 1px; text-transform: uppercase;
+}
+/* ── VOLET 2 VERSO — BALANCES (split: vente + vérif) ── */
+.vb-panel { background: transparent; display: flex; flex-direction: column; position: relative; }
+
+/* ── TOP: Vente Balances ── */
+.bal-top {
+  flex: 1.6; position: relative; overflow: hidden;
+  background: transparent;
+  display: flex; flex-direction: column;
+}
+.bal-top-blob {
+  position: absolute; z-index: 1; pointer-events: none;
+  width: 200px; height: 150px;
+  background: radial-gradient(ellipse, rgba(212,175,55,0.35) 0%, transparent 70%);
+  top: -30px; right: -40px; filter: blur(4px);
+}
+.bal-top-inner {
+  position: relative; z-index: 2;
+  padding: 8px 10px 4px; flex: 1; display: flex; flex-direction: column;
+}
+.bal-eyebrow {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 10px; font-weight: 800; letter-spacing: 5px;
+  text-transform: uppercase; color: #D4AF37; margin-bottom: 3px;
+}
+.bal-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 28px; color: white; text-transform: uppercase;
+  line-height: 0.88; letter-spacing: 2px; margin-bottom: 4px;
+  text-shadow: 3px 3px 0 rgba(0,0,0,0.4);
+}
+.bal-title span { color: #D4AF37; text-shadow: 3px 3px 0 rgba(0,0,0,0.3), 0 0 15px rgba(212,175,55,0.3); }
+.bal-sub {
+  font-size: 10px; color: rgba(255,255,255,0.5); letter-spacing: 2px;
+  text-transform: uppercase; font-weight: 700; margin-bottom: 8px;
+  font-family: 'Barlow Condensed', sans-serif;
+}
+.bal-products {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 5px; flex: 1;
+}
+.bal-prod {
+  background: rgba(255,255,255,0.07);
+  border-left: 3px solid rgba(212,175,55,0.6);
+  padding: 7px 8px; display: flex; flex-direction: column; gap: 2px;
+  position: relative; overflow: hidden;
+  border-radius: 4px;
+}
+.bal-prod::before {
+  content: '';
+  position: absolute; right: 0; top: 0; bottom: 0; width: 2px;
+  background: rgba(212,175,55,0.3);
+}
+.bal-prod h4 {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 12px; font-weight: 800; color: white;
+  text-transform: uppercase; letter-spacing: 0.5px; line-height: 1;
+}
+.bal-prod p { font-size: 9.5px; color: rgba(255,255,255,0.5); line-height: 1.3; font-weight: 300; }
+.bal-brand {
+  display: flex; align-items: center; gap: 8px; justify-content: space-between;
+  margin-top: 6px; padding-top: 6px; border-top: 1px solid rgba(212,175,55,0.2);
+}
+.bal-brand-tag {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 10px; font-weight: 700; letter-spacing: 1.5px;
+  text-transform: uppercase; padding: 3px 10px;
+  background: linear-gradient(135deg, #D4AF37, #C9A84C); color: #0A1628; border: none;
+  clip-path: polygon(3px 0, 100% 0, calc(100% - 3px) 100%, 0 100%);
+}
+.bal-brand-txt {
+  font-size: 9px; color: rgba(255,255,255,0.4); letter-spacing: 1px; text-transform: uppercase;
+}
+
+/* ── Séparateur oblique ── */
+.bal-sep {
+  height: 4px; position: relative; z-index: 6;
+  background: #D4AF37;
+}
+
+.bal-brands {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 5px 10px;
+  padding: 2px 10px;
+  flex-shrink: 0;
+  background: white;
+  border-radius: 5px;
+  border: 2px solid #000000;
+}
+.bal-brands img {
+  height: 35px;
+  object-fit: contain;
+  flex: 1;
+  max-width: 24%;
+  mix-blend-mode: multiply;
+}
+.bal-brands img[alt="Helmac"] { height: 45px; }
+.bal-brands img[alt="Dibal"] { height: 45px; }
+.bal-brands img[alt="Marques"] { height: 45px; }
+.bal-types-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px;
+  margin: 4px 0;
+  flex: 1;
+}
+.bal-type-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 6px 8px;
+  border-radius: 0;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 3px 4px 10px rgba(0,0,0,0.6);
+  flex-direction: column;
+  justify-content: flex-start;
+  text-align: left;
+}
+.bal-type-card.bt1 { background: linear-gradient(135deg, #1E88E5, #64B5F6); justify-content: flex-start; }
+.bal-type-card.bt2 { background: linear-gradient(135deg, #FF3D00, #FF6E40); justify-content: flex-start; }
+.bal-type-card.bt3 { background: linear-gradient(135deg, #D500F9, #E040FB); justify-content: flex-start; }
+.bal-type-card.bt4 { background: linear-gradient(135deg, #FFAB00, #FFD740); justify-content: flex-start; }
+.bal-type-icon {
+  font-size: 26px;
+  line-height: 1;
+  flex-shrink: 0;
+  filter: grayscale(1) brightness(10);
+  margin-bottom: 4px;
+}
+.bal-type-info { text-align: left; }
+.bal-type-info h4 {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 14px;
+  font-weight: 800;
+  color: black;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin: 0 0 2px 0;
+  line-height: 1.1;
+}
+.bal-type-info p {
+  font-family: 'Barlow', sans-serif;
+  font-size: 11px;
+  color: rgba(0,0,0,0.85);
+  margin: 0;
+  line-height: 1.25;
+  font-weight: 300;
+}
+.bal-datacollect-wrap { margin-top: 0; text-align: center; margin-left: -10px; margin-right: -10px; margin-bottom: -4px; overflow: visible; flex: 1; display: flex; align-items: center; }
+.bal-datacollect-img { width: 100%; max-height: none; object-fit: contain; border-radius: 10px; filter: drop-shadow(0 3px 8px rgba(0,0,0,0.4)); }
+.bal-datacollect-label { font-family: 'Barlow Condensed', sans-serif; font-size: 9px; font-weight: 600; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 1.5px; margin-top: 4px; }
+/* ── BOTTOM: Vérification ── */
+.verif-bot {
+  flex: 0.5; position: relative; overflow: hidden; z-index: 5;
+  background: #ffffff;
+  display: flex; flex-direction: column;
+}
+
+
+.verif-poids-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.12;
+  z-index: 0;
+}
+.verif-topband {
+  position: absolute; top: 0; left: 0; right: 0; height: 5px; z-index: 3;
+  background: white;
+  background: linear-gradient(90deg, #2563EB, #10B981, #F59E0B);
+  clip-path: polygon(0 0, 100% 0, 100% 60%, 85% 100%, 70% 60%, 55% 100%, 40% 55%, 25% 100%, 10% 60%, 0 100%);
+}
+.verif-blob {
+  position: absolute; z-index: 1; pointer-events: none;
+  width: 180px; height: 140px;
+  background: radial-gradient(ellipse, rgba(26,77,181,0.1) 0%, transparent 70%);
+  bottom: -30px; left: -40px; filter: blur(5px);
+}
+.verif-inner {
+  position: relative; z-index: 2;
+  padding: 12px 16px 10px; flex: 1; display: flex; flex-direction: column;
+}
+.verif-eyebrow {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 10px; font-weight: 800; letter-spacing: 5px;
+  text-transform: uppercase; color: #9A7B1A; margin-bottom: 3px;
+}
+.verif-badge { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+.verif-badge-ico {
+  width: 28px; height: 28px;
+  background: rgba(26,77,181,0.1); border: 2px solid rgba(26,77,181,0.3);
+  display: flex; align-items: center; justify-content: center; font-size: 14px;
+  clip-path: polygon(5px 0, 100% 0, calc(100% - 5px) 100%, 0 100%);
+}
+.verif-bname { display: block; font-family: 'Bebas Neue', sans-serif; font-size: 17px; color: #0A1628; letter-spacing: 2px; }
+.verif-burl { display: block; font-size: 8.5px; color: rgba(0,0,0,0.35); letter-spacing: 1.5px; text-transform: uppercase; }
+.verif-title {
+  font-family: 'Bebas Neue', sans-serif; font-size: 20px; color: #0A1628;
+  text-transform: uppercase; line-height: 0.9; margin-bottom: 6px; letter-spacing: 1.5px;
+}
+.verif-title em { color: #9A7B1A; font-style: normal; }
+.verif-points { display: flex; flex-direction: row; align-items: center; gap: 10px; margin-top: auto; margin-bottom: auto; }
+.verif-points-list { display: flex; flex-direction: column; gap: 3px; flex: 1; }
+.verif-vignette { flex-shrink: 0; }
+.verif-vignette img { height: 40px; border-radius: 3px; border: 1px solid rgba(0,100,0,0.3); filter: drop-shadow(0 2px 4px rgba(0,0,0,0.15)); }
+.verif-point { display: flex; align-items: flex-start; gap: 7px; }
+.verif-check {
+  width: 15px; height: 15px; flex-shrink: 0;
+  background: #2563EB; color: white;
+  font-size: 9px; font-weight: 900; margin-top: 1px;
+  display: flex; align-items: center; justify-content: center;
+  clip-path: polygon(3px 0, 100% 0, calc(100% - 3px) 100%, 0 100%);
+}
+.verif-point:nth-child(2) .verif-check { background: #10B981; }
+.verif-point:nth-child(3) .verif-check { background: #F59E0B; }
+.verif-point:nth-child(4) .verif-check { background: #EF4444; }
+.verif-point p { font-size: 10.5px; color: #445; line-height: 1.3; font-weight: 300; }
+.verif-point strong { color: #0A1628; font-weight: 700; }
+.verif-cta {
+  margin-top: auto;
+  background: linear-gradient(135deg, #1a1a3e, #0A1628); border: 1px solid rgba(212,175,55,0.4); padding: 8px 12px; text-align: center;
+  clip-path: polygon(0 5px, 100% 0, 100% 100%, 0 100%);
+}
+.verif-cta p {
+  font-size: 10px; color: rgba(255,255,255,0.7); letter-spacing: 1px;
+  text-transform: uppercase; font-weight: 300;
+}
+.verif-cta strong { color: #D4AF37; font-weight: 700; font-size: 11px; }
+/* ── VOLET 3 VERSO — SÉCURITÉ & AFFICHAGE ── */
+.vd-bar {
+  position: absolute; right: 0; top: 0; bottom: 0; width: 6px; z-index: 4;
+  background: linear-gradient(180deg, #00E676, #00E5FF);
+  clip-path: polygon(20% 0, 100% 0, 100% 100%, 0 100%);
+}
+.vd-blob {
+  position: absolute; z-index: 2;
+  width: 200px; height: 160px;
+  background: radial-gradient(ellipse, rgba(91,184,255,0.2) 0%, transparent 70%);
+  bottom: -40px; left: -50px; filter: blur(5px); pointer-events: none;
+}
+.vd-inner {
+  position: relative; z-index: 3;
+  padding: 12px 20px 0 16px; height: 100%; display: flex; flex-direction: column;
+}
+.vd-eyebrow { font-family: 'Barlow Condensed', sans-serif; font-size: 10px; font-weight: 800; letter-spacing: 5px; text-transform: uppercase; color: rgba(255,255,255,0.55); margin-bottom: 2px; }
+.vd-title {
+  font-family: 'Bebas Neue', sans-serif; font-size: 28px; color: white;
+  text-transform: uppercase; line-height: 0.88; margin-bottom: 4px; letter-spacing: 2px;
+  text-shadow: 3px 3px 0 rgba(0,0,0,0.4);
+}
+.vd-title span { color: #00E676; text-shadow: 3px 3px 0 rgba(0,0,0,0.3), 0 0 20px rgba(0,230,118,0.4); }
+
+.filet-sec {
+  width: 100%; height: 2px;
+  background: linear-gradient(90deg, #D4AF37, rgba(212,175,55,0.1));
+  margin: 4px 0 8px;
+}
+
+/* Sections produit */
+.sec-products { display: flex; flex-direction: column; gap: 7px; flex: 1; }
+
+.sec-card {
+  background: rgba(255,255,255,0.06);
+  border-radius: 8px; overflow: hidden;
+  display: flex; align-items: stretch;
+  border: 1px solid rgba(255,255,255,0.1);
+  box-shadow: 3px 4px 12px rgba(0,0,0,0.5);
+  flex: 1; min-height: 0;
+}
+.sec-card-img-wrap {
+  width: 85px; flex-shrink: 0;
+  background: white;
+  display: flex; align-items: center; justify-content: center;
+  padding: 5px;
+  border-right: 3px solid;
+}
+.sec-card.s-cam .sec-card-img-wrap  { border-right-color: #00E5FF; }
+.sec-card.s-alrm .sec-card-img-wrap { border-right-color: #FF3D00; }
+.sec-card.s-disp .sec-card-img-wrap { border-right-color: #00E676; }
+
+.sec-card-img-wrap img {
+  width: 100%; height: 100%; object-fit: contain;
+}
+.sec-card-ico {
+  width: 85px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 36px;
+  border-right: 3px solid #00E676;
+  background: linear-gradient(135deg, rgba(0,230,118,0.15), rgba(0,200,220,0.1));
+}
+
+.sec-card-body { padding: 8px 10px; flex: 1; display: flex; flex-direction: column; justify-content: center; }
+.sec-card-body h3 {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 14px; font-weight: 800; color: white;
+  text-transform: uppercase; letter-spacing: 0.5px; line-height: 1; margin-bottom: 4px;
+}
+.sec-card-body p { font-size: 10px; color: rgba(255,255,255,0.55); line-height: 1.35; font-weight: 300; }
+.sec-card-body .sec-tags {
+  display: flex; flex-wrap: wrap; gap: 3px; margin-top: 5px;
+}
+.sec-tag {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 8px; font-weight: 700; letter-spacing: 1px;
+  text-transform: uppercase; padding: 2px 6px;
+  background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15);
+  color: rgba(255,255,255,0.5);
+  border-radius: 2px;
+}
+.sec-tag.hot { background: rgba(0,230,118,0.2); border-color: rgba(0,230,118,0.4); color: #00E676; }
+
+/* Logic Display - style inspiré du site */
+.sec-card.s-disp {
+  background: linear-gradient(135deg, #0C0317, #1E40AF);
+  border: 2px solid #F97316;
+  box-shadow: 0 4px 15px rgba(249,115,22,0.3), inset 0 0 20px rgba(30,64,175,0.3);
+}
+.sec-card.s-disp .sec-card-ico {
+  border-right: 3px solid #F97316;
+  background: linear-gradient(135deg, rgba(249,115,22,0.2), rgba(252,211,77,0.15));
+}
+.sec-card.s-disp .sec-card-body h3 {
+  background: linear-gradient(90deg, #FCD34D, #F97316);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.sec-card.s-disp .sec-card-body p {
+  color: rgba(255,255,255,0.75);
+}
+.sec-card.s-disp .sec-tag {
+  background: rgba(249,115,22,0.15);
+  border-color: rgba(249,115,22,0.4);
+  color: #FCD34D;
+}
+.sec-card.s-disp .sec-tag.hot {
+  background: linear-gradient(135deg, #F97316, #FCD34D);
+  border-color: #FCD34D;
+  color: #0C0317;
+  font-weight: 900;
+}
+
+/* CTA footer */
+.sec-cta {
+  margin: 8px -20px 0 -16px;
+  background: linear-gradient(90deg, #D4AF37, #C9A84C); padding: 10px 16px; text-align: center;
+  clip-path: polygon(0 6px, 100% 0, 100% 100%, 0 100%);
+}
+.sec-cta-t {
+  font-family: 'Bebas Neue', sans-serif; font-size: 16px; color: #0A1628;
+  letter-spacing: 2px; margin-bottom: 2px;
+}
+.sec-cta p { font-size: 10px; color: rgba(10,22,40,0.6); letter-spacing: 1px; text-transform: uppercase; font-weight: 300; }
+@media print {
+  @page {
+    size: A4 landscape;
+    margin: 0;
+  }
+  body {
+    background: white !important;
+    padding: 0 !important;
+    gap: 0 !important;
+    display: block !important;
+  }
+  .page-label { display: none !important; }
+  .a4 {
+    width: 297mm !important;
+    height: 210mm !important;
+    page-break-after: always;
+    page-break-inside: avoid;
+    box-shadow: none !important;
+  }
+  .a4:last-of-type { page-break-after: auto; }
+}</style>
+</head>
+<body>
+
+<p class="page-label">Recto — Services &amp; Présentation</p>
+<div class="a4">
+
+  <!-- GAUCHE : SERVICES -->
+  <div class="panel svc-panel">
+    <div class="wall"></div>
+    <div class="overlay"></div>
+    <div class="svc-blob"></div>
+    <div class="svc-tag-line"></div>
+    <div class="svc-inner">
+      <p class="svc-eyebrow">Nos équipements</p>
+      <div class="svc-title">Nos<br><span>Solutions</span></div>
+      <div class="filet"></div>
+      <div class="svc-cards">
+        <div class="svc-card c1"><div class="svc-ico"><img src="PRECIA MOLEN.png" alt=""></div><div class="svc-info"><h3>Balances Pro</h3><p>Tout type, balances Commerces, Labo, Étiqueteuses, Précision...</p></div></div>
+        <div class="svc-card c2"><div class="svc-ico"><img src="CAISSE2.png" alt=""></div><div class="svc-info"><h3>Caisses Enregistreuses</h3><p>Tactiles, Logiciel Logic'S pour tous commerces.</p></div></div>
+        <div class="svc-card c3"><div class="svc-ico"><img src="Camera canon.png" alt="" style="width:100%;height:100%;object-fit:contain;opacity:0.9;"></div><div class="svc-info"><h3>Vidéosurveillance</h3><p>Tous type de Caméra, Accès à distance.</p></div></div>
+
+        <div class="svc-card c10"><div class="svc-ico"><img src="Sirène Int HIKVISION.png" alt="" style="width:100%;height:100%;object-fit:contain;"></div><div class="svc-info"><h3>Alarmes</h3><p>Détection intrusion, sirènes, alerte smartphone.</p></div></div>
+        <div class="svc-card c4"><div class="svc-ico"><img src="TPE.jpg" alt="" style="width:100%;height:100%;object-fit:contain;mix-blend-mode:multiply;"></div><div class="svc-info"><h3>Terminaux Paiement</h3><p>TPE fixes &amp; mobiles, sans contact.</p></div></div>
+        <div class="svc-card c5"><div class="svc-ico"><img src="CI5.JPG" alt="" style="width:100%;height:100%;object-fit:contain;mix-blend-mode:multiply;"></div><div class="svc-info"><h3>Monnayeurs</h3><p>Rendu monnaie automatique sécurisé.</p></div></div>
+        <div class="svc-card c6"><div class="svc-ico"><img src="ACCES.png" alt="" style="width:100%;height:100%;object-fit:contain;"></div><div class="svc-info"><h3>Contrôle d'Accès</h3><p>Superviser et Contrôler les lieux.</p></div></div>
+      
+        <div class="svc-card c8"><div class="svc-ico"><img src="BORNE.jpg" alt="" style="width:100%;height:100%;object-fit:contain;mix-blend-mode:multiply;"></div><div class="svc-info"><h3>Bornes de Commande</h3><p>Borne de commande tactile, self-service.</p></div></div>
+        <div class="svc-card c9"><div class="svc-ico"><img src="FLYER.png" alt="" style="width:100%;height:100%;object-fit:contain;"></div><div class="svc-info"><h3>Affichage Dynamique</h3><p>Écrans connectés, promotions en temps réel.</p></div></div>
+        <div class="svc-card c7"><div class="svc-ico"><span style="font-size:32px;line-height:1;">🛠️</span></div><div class="svc-info"><h3>Maintenance &amp; SAV</h3><p>Hotline 7j/7, intervention sous 48h.</p></div></div>
+      </div>
+      <div class="svc-footer"><p>⚡ Devis Gratuit</p><span>Sous 48h</span></div>
+    </div>
+  </div>
+
+  <!-- CENTRE : SOCIÉTÉ -->
+  <div class="panel co-panel">
+    <div class="wall"></div>
+    <div class="overlay"></div>
+    <div class="co-blob"></div>
+    <div class="co-blob2"></div>
+    <div class="co-topband"></div>
+    <div class="co-inner">
+      <p class="co-eyebrow">Qui sommes-nous</p>
+      <div class="co-title">Votre partenaire<span>de confiance</span></div>
+      <div class="filet-dark"></div>
+      <p class="co-desc">Depuis plus de 10 ans, AVS Technologies accompagne les professionnels du commerce alimentaire en Normandie et Picardie avec des solutions complètes.</p>
+      <div class="co-stats">
+        <div class="co-stat s1"><span class="co-stat-n">700+</span><span class="co-stat-l">Clients</span></div>
+        <div class="co-stat s2"><span class="co-stat-n">10+</span><span class="co-stat-l">Ans</span></div>
+        <div class="co-stat s3"><span class="co-stat-n">2</span><span class="co-stat-l">Régions</span></div>
+      </div>
+      <div class="co-atout"><div class="co-check">✓</div><p><strong>Installation &amp; mise en service</strong> sur site par nos techniciens</p></div>
+      <div class="co-atout"><div class="co-check">✓</div><p><strong>Contrats de maintenance</strong> et interventions rapides</p></div>
+      <div class="co-atout"><div class="co-check">✓</div><p><strong>Formation</strong> de votre personnel incluse</p></div>
+      <div class="co-atout"><div class="co-check">✓</div><p><strong>Location &amp; financement</strong> de vos équipements</p></div>
+      <div class="co-atout"><div class="co-check">✓</div><p>Support technique <strong>disponible 7j/7</strong></p></div>
+      <div class="co-contact"><div style="height:0px;"></div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:30px 20px 0px 20px;">
+          <div style="text-align:center;">
+            <div style="background:white;padding:10px;border-radius:8px;display:inline-block;">
+              <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJYAAACWAQMAAAAGz+OhAAAABlBMVEX///8AAABVwtN+AAAACXBIWXMAAA7EAAAOxAGVKw4bAAABHElEQVRIib2Wuw3DMAxEKahwqRE8ihcLrHgzj6IRXKowwtyR+QIpIxIurKfCxJE8WuRHVEXs+cBr6jMP/e/sgkPZ9Vi01T5feRPDip5lz6oya5831S2SIZdJbxLOKENLPZKZ9sSyylc9xjLvNTAk8t1/Y9krcP1xGs6Qy1mYDnpc2zq1NYZJUQy0HjK1pARRTCSrzbRHcyWGs4qCCwEuTYAUw/KxyGOmrdHgKH9n+C6+iPp2Se+aj2cXmiQx/Gp66BzCZMksrucCkIIYTVJPyuDaXyWEedAn4VdMR2JYVTMN7t/kVtlDmO8FkcUmyHMJYbYHT7L6nK04Bp9kFty/oQwP/zc4YVsQM+2f+6iy8iHMew2zZVNl8oewH3EHPifYSbGBsvYAAAAASUVORK5CYII=" style="width:70px;height:70px;display:block;">
+            </div>
+            <p style="font-size:11px;color:white;font-weight:700;margin-top:5px;">AVS Tech</p>
+          </div>
+          <div style="text-align:center;">
+            <div style="background:white;padding:10px;border-radius:8px;display:inline-block;">
+              <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJYAAACWAQMAAAAGz+OhAAAABlBMVEX///8AAABVwtN+AAAACXBIWXMAAA7EAAAOxAGVKw4bAAABGElEQVRIib2WsQ3DMAwEKbhwqRE0ShYLYnszjeIRXKoQ8nlSSAAjKeMnXMTXmPh/kjH7UQtYlT9a2Vrxl/Z3dudrrj1X7Esrq1kSsQwCs5uDsgGbklGGeX/o2XTc5j01JQvtcdBznP24lo2ssZ2v/F3LRk2Aled5mq5l7KVnUANgpe3uvIpNB+UHVYcDIeMu8ZhHcbIljOnmw5n2wfJekoaF4XXyNp4zg1bwf3Y3ftc691XoHP6K2HuOPjqLmFlI7ToTJBnzO8hRwuZLw1eWgo2C7w2E/KZhiwteu9m4C5E1BRt3YWgfvSwiFnewuwMI7bmlhSzHXShhu5B53FwDm0//Qa5k9r77tH/nkzRsZC10X0e6NexHvQDoOOBw8WE3GwAAAABJRU5ErkJggg==" style="width:70px;height:70px;display:block;">
+            </div>
+            <p style="font-size:11px;color:white;font-weight:700;margin-top:5px;">Logic'S</p>
+          </div>
+          <div style="text-align:center;">
+            <div style="background:white;padding:10px;border-radius:8px;display:inline-block;">
+              <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJYAAACWAQMAAAAGz+OhAAAABlBMVEX///8AAABVwtN+AAAACXBIWXMAAA7EAAAOxAGVKw4bAAABJklEQVRIib2WQa7CMAxEp+oiyxwhR8nFKpLcrEfpEbrMosJ/7PxKgFgSWwjB2zCMx3aBL1WEta8nwgEk/dJ/zjb+TtzlzD09kSqwOLEoV9xXEaTWUxNpnoxaRKjFm9GGzn/vycx7lXOU/taPuWxkjayr96/5m8vuyh2Pz3mayajliionSA3Hgy8fttF4ZGaNrosCP6aGn6AHgR/YeReGoUVnupoBixNDJubuFCvG7feM/TUs4VCf755PZxsyl+Qq+xii4b0Hi6pl1VwVA4sTUy30Pt/eV7iwURxhtrrrKMGHFVXASAN2F+6sTWfjLtAGvb+qZXFidgevsT3U+yccGfdk0DvYxJ6v3Bi9512Avjcnhv9VacaXl37MZSNroruzjnT7sC/1B5ntyJ9LTHYwAAAAAElFTkSuQmCC" style="width:70px;height:70px;display:block;">
+            </div>
+            <p style="font-size:11px;color:white;font-weight:700;margin-top:5px;">Verif Balance</p>
+          </div>
+          <div style="text-align:center;">
+            <div style="background:white;padding:10px;border-radius:8px;display:inline-block;">
+              <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJYAAACWAQMAAAAGz+OhAAAABlBMVEX///8AAABVwtN+AAAACXBIWXMAAA7EAAAOxAGVKw4bAAABGUlEQVRIib2Wy43DMAxEKeSgo0tQKWlsEVudqRSX4CMPRrhDytnNx8doiMBAng9ihjNURE5qNlS7bJJXkeJf9OvsB+dMzbarFtOyiCQSm2yf2sVMAEo1q0yGXszufAYZFL+eyUJ74I95jGXda8GqvvhvLHvUVeX2nqeRDL3sk7eTbcnrDR8WazgdXstrMgckhgqPyzGGdVYWg/Dmma7RS+IwbM2+O5HpDKPB6V9nnt+nc2O+JBbVoPBDZxbb/nqZ9bgXGAw5Eu+o+tLwlcVgveyYNqIkHBaCt91fpL4qlcL6vYBHqI5eEonFPQib57CclruQGVJVYuxEBvkBsL3y03+QsSy03yX2M2L9P4+xrHvNfHcu3d0cdlK/Fc70ATuipZUAAAAASUVORK5CYII=" style="width:70px;height:70px;display:block;">
+            </div>
+            <p style="font-size:11px;color:white;font-weight:700;margin-top:5px;">Logic Display</p>
+          </div>
+        </div>
+      </div>
+      <p style="position:absolute;bottom:38px;left:0;right:0;text-align:center;z-index:7;color:white;font-size:12px;font-weight:700;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" style="width:14px;height:14px;vertical-align:middle;margin-right:5px;"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"></path></svg>09 72 22 05 30</p>
+      <p style="position:absolute;bottom:23px;left:0;right:0;text-align:center;z-index:7;color:white;font-size:11px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" style="width:14px;height:14px;vertical-align:middle;margin-right:5px;"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"></path></svg>contact@avs-technologies.fr</p>
+      <div class="co-zone" style="position:absolute;bottom:10px;left:0;right:0;text-align:center;">Normandie &amp; Picardie</div>
+    <p class="co-contact-hdr" style="position:absolute;left:0;right:0;bottom:55px;text-align:center;z-index:7;font-weight:900;">Nous Contacter</p>
+    <img style="position:absolute; right:8px; bottom:330px; width:150px; height:150px; object-fit:contain; opacity:0.95; z-index:6;" src="LOGO 1_transparent.png"></div>
+  </div>
+
+  <!-- DROITE : COUVERTURE -->
+  <div class="panel cover-panel">
+    <div class="wall"></div>
+    <div class="overlay"></div>
+    <div class="cv-bar"></div>
+    <div class="cover-inner">
+      <div class="cover-topband">
+        <div class="cover-logo-wrap">
+          
+          <img src="LOGO_transparent.png" style="width:90px;height:90px;object-fit:contain;filter:drop-shadow(0 2px 10px rgba(255,255,255,0.4));margin-top:24px;"><div><span class="logo-name">AVS Technologies</span><span class="logo-sub">Équipements &amp; Services</span></div>
+        </div>
+      </div>
+      <div style="position:relative;z-index:4;margin-top:30px;margin-left:-10px;margin-right:-10px;width:calc(100% + 20px);"><img src="PAGE DE GARDE 2_transparent.png" style="width:100%;display:block;border-radius:3px;box-shadow:0 4px 20px rgba(0,0,0,0.5);"></div><div class="cover-spacer"></div>
+      <div class="cover-bottom">
+        <div class="cover-rule"></div>
+        <div class="cover-title">Équipez<br>Votre Commerce<br><span class="blue">Avec Nos Solutions</span></div>
+        <p class="cover-tagline">Balances, caisses, vidéosurveillance, TPE &amp; monnayeurs, contrôle d'accès — l'excellence au service de votre commerce.</p>
+        <div class="cover-pills">
+          <span class="pill hot">SAV 7j/7</span>
+          <span class="pill hot">Conseils</span>
+          <span class="pill hot">Formation</span>
+          <span class="pill hot">Installation</span>
+          <span class="pill hot">Assistance</span>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<p class="page-label">Verso — Solutions Logicielles</p>
+<div class="a4">
+
+  <!-- ENCAISSEMENT & PAIEMENT -->
+  <div class="panel vl-panel">
+    <div class="wall"></div>
+    <div class="overlay"></div>
+    <div class="vl-blob"></div>
+    <div class="vl-bar"></div>
+    <div class="vl-inner">
+      <p class="vl-eyebrow">Nos solutions</p>
+      <div class="vl-title">Encaissement<br><span>&amp; Paiement</span></div>
+      <p style="font-size:9.5px;color:#FFD700;margin-bottom:4px;font-weight:600;letter-spacing:0.5px;">La caisse qui simplifie votre quotidien</p>
+      <div class="filet-enc"></div>
+      <div class="enc-grid">
+        <div class="enc-card c-caisse">
+          <div class="enc-card-img" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:6px;background:#ffffff;border:3px solid #00D4FF;border-radius:16px 16px 0 0;box-shadow:0 0 8px rgba(0,212,255,0.6),inset 0 0 8px rgba(0,212,255,0.15);height:80px;"><img src="CAISSE 2.jpg" style="height:100%;max-width:65%;object-fit:contain;"><img src="NF525.jfif" style="height:60px;object-fit:contain;"></div>
+          <div class="enc-card-body" style="padding:7px 9px 7px;">
+            <!-- En-tête avec sceau NF525 doré -->
+            <div style="display:flex;align-items:flex-start;gap:8px;margin-bottom:4px;">
+              <div style="flex:1;">
+                <h3 style="font-family:'Bebas Neue',sans-serif;font-size:18px;margin:0;letter-spacing:2px;text-transform:uppercase;color:white;text-shadow:0 2px 8px rgba(59,130,246,0.3);">Caisses Enregistreuses</h3>
+                <p style="font-size:9px;color:rgba(255,255,255,0.6);margin-top:2px;font-weight:400;line-height:1.3;">Logiciel <strong style="color:#60A5FA;font-weight:700;">Logic&#x2019;S</strong> &#x2014; la solution <strong style="color:white;">tout-en-un</strong> pour votre commerce</p>
+              </div>
+            </div>
+
+            <!-- 4 piliers premium glassmorphism -->
+            <div style="display:flex;gap:3px;margin-bottom:5px;">
+              <div style="flex:1;text-align:center;padding:5px 3px 4px;background:linear-gradient(180deg,rgba(59,130,246,0.2),rgba(59,130,246,0.04));border-radius:10px;border:1px solid rgba(59,130,246,0.25);backdrop-filter:blur(4px);position:relative;overflow:hidden;">
+                <div style="position:absolute;top:-8px;right:-8px;width:20px;height:20px;background:radial-gradient(circle,rgba(59,130,246,0.3),transparent);pointer-events:none;"></div>
+                <div style="width:18px;height:18px;margin:0 auto 2px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,rgba(59,130,246,0.3),rgba(59,130,246,0.1));border-radius:6px;font-size:11px;line-height:1;">&#x1f310;</div>
+                <p style="font-size:6px;font-weight:800;color:white;text-transform:uppercase;letter-spacing:0.3px;line-height:1.2;">Prise en main<br>&#xe0; distance</p>
+              </div>
+              <div style="flex:1;text-align:center;padding:5px 3px 4px;background:linear-gradient(180deg,rgba(59,130,246,0.2),rgba(59,130,246,0.04));border-radius:10px;border:1px solid rgba(59,130,246,0.25);backdrop-filter:blur(4px);position:relative;overflow:hidden;">
+                <div style="position:absolute;top:-8px;right:-8px;width:20px;height:20px;background:radial-gradient(circle,rgba(59,130,246,0.3),transparent);pointer-events:none;"></div>
+                <div style="width:18px;height:18px;margin:0 auto 2px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,rgba(59,130,246,0.3),rgba(59,130,246,0.1));border-radius:6px;font-size:11px;line-height:1;">&#x1f6e0;</div>
+                <p style="font-size:6px;font-weight:800;color:white;text-transform:uppercase;letter-spacing:0.3px;line-height:1.2;">Support<br>r&#xe9;actif</p>
+              </div>
+              <div style="flex:1;text-align:center;padding:5px 3px 4px;background:linear-gradient(180deg,rgba(16,185,129,0.2),rgba(16,185,129,0.04));border-radius:10px;border:1px solid rgba(16,185,129,0.25);backdrop-filter:blur(4px);position:relative;overflow:hidden;">
+                <div style="position:absolute;top:-8px;right:-8px;width:20px;height:20px;background:radial-gradient(circle,rgba(16,185,129,0.3),transparent);pointer-events:none;"></div>
+                <div style="width:18px;height:18px;margin:0 auto 2px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,rgba(16,185,129,0.3),rgba(16,185,129,0.1));border-radius:6px;font-size:11px;line-height:1;">&#x1f1eb;&#x1f1f7;</div>
+                <p style="font-size:6px;font-weight:800;color:#34D399;text-transform:uppercase;letter-spacing:0.3px;line-height:1.2;">&#xc9;dit&#xe9; en<br>France</p>
+              </div>
+              <div style="flex:1;text-align:center;padding:5px 3px 4px;background:linear-gradient(180deg,rgba(212,175,55,0.2),rgba(212,175,55,0.04));border-radius:10px;border:1px solid rgba(212,175,55,0.25);backdrop-filter:blur(4px);position:relative;overflow:hidden;">
+                <div style="position:absolute;top:-8px;right:-8px;width:20px;height:20px;background:radial-gradient(circle,rgba(212,175,55,0.3),transparent);pointer-events:none;"></div>
+                <div style="width:18px;height:18px;margin:0 auto 2px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,rgba(212,175,55,0.3),rgba(212,175,55,0.1));border-radius:6px;font-size:11px;line-height:1;">&#x2601;&#xfe0f;</div>
+                <p style="font-size:6px;font-weight:800;color:#FCD34D;text-transform:uppercase;letter-spacing:0.3px;line-height:1.2;">Cloud<br>s&#xe9;curis&#xe9;</p>
+              </div>
+            </div>
+
+            <!-- S&#xe9;parateur d&#xe9;coratif -->
+            <div style="display:flex;align-items:center;gap:6px;margin:2px 0 4px;">
+              <div style="flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(59,130,246,0.4));"></div>
+              <p style="font-size:5px;font-weight:800;color:rgba(255,255,255,0.3);text-transform:uppercase;letter-spacing:3px;white-space:nowrap;">&#xc9;cosyst&#xe8;me complet</p>
+              <div style="flex:1;height:1px;background:linear-gradient(90deg,rgba(59,130,246,0.4),transparent);"></div>
+            </div>
+
+            <!-- 4 fonctionnalités clés en grille 2x2 -->
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:6px;">
+
+              <!-- ENCAISSEMENT - Bleu -->
+              <div style="padding:9px 10px;background:rgba(37,99,235,0.55);border-radius:14px;border:2.5px solid #60A5FA;border-left:6px solid #93C5FD;box-shadow:0 3px 10px rgba(0,0,0,0.3);">
+                <div style="display:flex;align-items:center;gap:7px;margin-bottom:4px;">
+                  <span style="display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;background:#2563EB;border-radius:8px;font-size:15px;line-height:1;">&#x1f4bb;</span>
+                  <p style="font-size:12px;font-weight:900;color:#fff;letter-spacing:0.5px;">Encaissement</p>
+                </div>
+                <p style="font-size:9.5px;color:#ffffff;line-height:1.4;font-weight:500;">Tactile, multi-paiements, NFC, mise en compte client</p>
+              </div>
+
+              <!-- DEVIS - Violet -->
+              <div style="padding:9px 10px;background:rgba(124,58,237,0.55);border-radius:14px;border:2.5px solid #A78BFA;border-left:6px solid #C4B5FD;box-shadow:0 3px 10px rgba(0,0,0,0.3);">
+                <div style="display:flex;align-items:center;gap:7px;margin-bottom:4px;">
+                  <span style="display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;background:#7C3AED;border-radius:8px;font-size:15px;line-height:1;">&#x1f4c4;</span>
+                  <p style="font-size:12px;font-weight:900;color:#fff;letter-spacing:0.5px;">Devis &amp; Facturation</p>
+                </div>
+                <p style="font-size:9.5px;color:#ffffff;line-height:1.4;font-weight:500;">Devis, factures, bons de livraison, avoirs, relances</p>
+              </div>
+
+              <!-- FIDÉLITÉ - Emeraude -->
+              <div style="padding:9px 10px;background:rgba(4,120,87,0.55);border-radius:14px;border:2.5px solid #34D399;border-left:6px solid #6EE7B7;box-shadow:0 3px 10px rgba(0,0,0,0.3);">
+                <div style="display:flex;align-items:center;gap:7px;margin-bottom:4px;">
+                  <span style="display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;background:#059669;border-radius:8px;font-size:15px;line-height:1;">&#x2764;&#xfe0f;</span>
+                  <p style="font-size:12px;font-weight:900;color:#fff;letter-spacing:0.5px;">Fidélité &amp; CRM</p>
+                </div>
+                <p style="font-size:9.5px;color:#ffffff;line-height:1.4;font-weight:500;">Carte digitale, points, cadeaux, SMS</p>
+              </div>
+
+              <!-- CLICK & COLLECT - Orange -->
+              <div style="padding:9px 10px;background:rgba(234,88,12,0.55);border-radius:14px;border:2.5px solid #FB923C;border-left:6px solid #FDBA74;box-shadow:0 3px 10px rgba(0,0,0,0.3);">
+                <div style="display:flex;align-items:center;gap:7px;margin-bottom:4px;">
+                  <span style="display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;background:#EA580C;border-radius:8px;font-size:15px;line-height:1;">&#x1f4f1;</span>
+                  <p style="font-size:12px;font-weight:900;color:#fff;letter-spacing:0.5px;">Click &amp; Collect</p>
+                </div>
+                <p style="font-size:9.5px;color:#ffffff;line-height:1.4;font-weight:500;">Commande en ligne, retrait, sync temps réel</p>
+              </div>
+
+            </div>
+
+            <!-- Secteurs d'activité avec style amélioré -->
+            <div style="display:flex;flex-wrap:wrap;gap:2px;margin-bottom:3px;justify-content:center;">
+              <span style="font-size:6.5px;padding:2px 6px;background:linear-gradient(135deg,rgba(59,130,246,0.12),rgba(59,130,246,0.04));border:1px solid rgba(59,130,246,0.2);color:rgba(255,255,255,0.75);border-radius:12px;font-weight:600;">&#x1f37d; Restaurants</span>
+              <span style="font-size:6.5px;padding:2px 6px;background:linear-gradient(135deg,rgba(59,130,246,0.12),rgba(59,130,246,0.04));border:1px solid rgba(59,130,246,0.2);color:rgba(255,255,255,0.75);border-radius:12px;font-weight:600;">&#x1f950; Boulangeries</span>
+              <span style="font-size:6.5px;padding:2px 6px;background:linear-gradient(135deg,rgba(59,130,246,0.12),rgba(59,130,246,0.04));border:1px solid rgba(59,130,246,0.2);color:rgba(255,255,255,0.75);border-radius:12px;font-weight:600;">&#x1f356; Métiers de bouche</span>
+              <span style="font-size:6.5px;padding:2px 6px;background:linear-gradient(135deg,rgba(59,130,246,0.12),rgba(59,130,246,0.04));border:1px solid rgba(59,130,246,0.2);color:rgba(255,255,255,0.75);border-radius:12px;font-weight:600;">&#x2615; Bars &amp; Caf&#xe9;s</span>
+              <span style="font-size:6.5px;padding:2px 6px;background:linear-gradient(135deg,rgba(59,130,246,0.12),rgba(59,130,246,0.04));border:1px solid rgba(59,130,246,0.2);color:rgba(255,255,255,0.75);border-radius:12px;font-weight:600;">&#x1f6d2; &#xc9;piceries</span>
+              <span style="font-size:6.5px;padding:2px 6px;background:linear-gradient(135deg,rgba(59,130,246,0.12),rgba(59,130,246,0.04));border:1px solid rgba(59,130,246,0.2);color:rgba(255,255,255,0.75);border-radius:12px;font-weight:600;">&#x1f6cd; Retail</span>
+            </div>
+
+            <!-- Badges finaux -->
+            <div style="display:flex;flex-wrap:wrap;gap:3px;margin-top:0;justify-content:space-between;width:100%;">
+              <span style="font-size:6.5px;padding:3px 7px;flex:1;text-align:center;background:linear-gradient(135deg,rgba(59,130,246,0.3),rgba(59,130,246,0.1));border:1px solid rgba(59,130,246,0.35);color:#93C5FD;border-radius:12px;font-weight:700;letter-spacing:0.3px;">&#x26a1; PERFORMANT</span>
+              <span style="font-size:6.5px;padding:3px 7px;flex:1;text-align:center;background:linear-gradient(135deg,rgba(59,130,246,0.3),rgba(59,130,246,0.1));border:1px solid rgba(59,130,246,0.35);color:#93C5FD;border-radius:12px;font-weight:700;letter-spacing:0.3px;">&#x1f512; S&#xc9;CURIS&#xc9;</span>
+              <span style="font-size:6.5px;padding:3px 7px;flex:1;text-align:center;background:linear-gradient(135deg,rgba(59,130,246,0.3),rgba(59,130,246,0.1));border:1px solid rgba(59,130,246,0.35);color:#93C5FD;border-radius:12px;font-weight:700;letter-spacing:0.3px;">&#x1f680; &#xc9;VOLUTIF</span>
+            </div>
+          </div>
+        </div>
+        <div class="enc-card c-borne">
+          <img class="enc-card-img" src="BORNE_white.png" alt="Borne">
+          <div class="enc-card-body">
+            <h3>Bornes de Commande</h3>
+            <p>Commande en autonomie, paiement intégré CB/NFC. Fluidifiez le service, réduisez les files d'attente et augmentez le panier moyen de <strong style="color:#60A5FA;">+20%</strong>. Synchro temps réel avec la caisse Logic'S.</p>
+            <span class="enc-card-tag">Self-service · Click &amp; Collect · Synchro Logic'S</span>
+          </div>
+        </div>
+        <div class="enc-card c-tpe">
+          <img class="enc-card-img" src="TPE_white.png" alt="TPE">
+          <div class="enc-card-body">
+            <h3>Terminaux de Paiement</h3>
+            <p>TPE fixes &amp; mobiles, sans contact NFC, Apple Pay, intégration caisse directe.</p>
+            <span class="enc-card-tag">CB · Sans contact</span>
+          </div>
+        </div>
+        <div class="enc-card c-monn">
+          <img class="enc-card-img" src="CI5_white.png" alt="Monnayeur">
+          <div class="enc-card-body">
+            <h3>Monnayeurs Glory</h3>
+            <p>Rendu monnaie automatique, zéro erreur de caisse, détection faux billets, hygiène totale. Sécurisez vos espèces et gagnez du temps à chaque transaction.</p>
+            <span class="enc-card-tag">Glory CI-5 / CI-10 · Anti-vol · Hygiène</span>
+          </div>
+        </div>
+      </div>
+      <div class="enc-footer">
+        <div class="enc-footer-left">
+          <div class="enc-footer-ico">🖥️</div>
+          <p>Logic'S Inside</p>
+        </div>
+        <span>logics-gestion.fr</span>
+      </div>
+    </div>
+  </div>
+  <!-- BALANCES : VENTE + VÉRIFICATION -->
+  <div class="panel vb-panel">
+      <div class="wall"></div>
+      <div class="overlay"></div>
+
+    <!-- TOP: Commercialisation -->
+    <div class="bal-top">
+      <div class="bal-top-blob"></div>
+      <div class="bal-top-inner">
+        <p class="bal-eyebrow">Vente &amp; location</p>
+        <div class="bal-title">Balances<br><span>Professionnelles</span></div>
+        
+        <div class="bal-brands"><img src="Logo_Helmac.png" alt="Helmac"><img src="DIBAL.jfif" alt="Dibal"><img src="PRECIA MOLEN.png" alt="Precia Molen"><img class="bal-brand-marques" src="MARQUES.png" alt="Marques"></div>
+        <div class="bal-types-grid">
+          <div class="bal-type-card bt1">
+            
+            <div class="bal-type-info">
+              <h4>Balances tous commerces</h4>
+              <p>• Balance spéciale Marché</p>
+              <p>• Balance Tactile</p>
+              <p>• Balance suspendue</p>
+              <p>• Balance <span style="background:#FF6600;color:black;font-weight:700;padding:1px 5px;">DATA COLLECT</span> (synchronisation des données de la caisse enregistreuse aux balances, tracer les ventes de vos balances...)</p>
+              
+            </div>
+          </div>
+          <div class="bal-type-card bt2">
+            
+            <div class="bal-type-info">
+              <h4>Balances Étiqueteuses</h4>
+              <p>• Faire du préemballé</p>
+              <p>• Traçabilité sur vos articles</p>
+              <p>• Calcul poids total carton ou palette</p>
+              <img src="etiquette.jpg" alt="Etiquette" style="max-height:60px;margin-top:4px;border-radius:3px;box-shadow:2px 2px 6px rgba(0,0,0,0.3);">
+              
+            </div>
+          </div>
+          <div class="bal-type-card bt3">
+            
+            <div class="bal-type-info">
+              <h4>Balances Laboratoire</h4>
+              <p>• Simple Pesée</p>
+              <p>• Compteuse</p>
+              <p>• Contrôle interne</p>
+              
+            </div>
+          </div>
+          <div class="bal-type-card bt4">
+            
+            <div class="bal-type-info">
+              <h4>Balances Précision</h4>
+              <p>• Pesée simple et très précise</p>
+              <p>• Compteuse</p>
+              
+            </div>
+          </div>
+        </div>
+        <div class="bal-datacollect-wrap"><img class="bal-datacollect-img" src="DATA COLLECT.jpg" alt="DataCollect DGI"><p class="bal-datacollect-label">Synchronisation caisse ↔ balances</p></div>
+      </div>
+    </div>
+
+    <div class="bal-sep"></div>
+
+    <!-- BOTTOM: Vérification -->
+    <div class="verif-bot">
+      <img class="verif-poids-img" src="poids.jpg" alt="Poids">
+      
+      
+      <div class="verif-topband"></div>
+      <div class="verif-blob"></div>
+      <div class="verif-inner">
+        <p class="verif-eyebrow">Métrologie légale</p>
+        <div class="verif-title"><span style="color:#047857;font-weight:900;text-decoration:underline;">Vérification</span> <em style="color:#047857;font-weight:900;text-decoration:underline;">périodique</em><br><span style="color:#DC2626;font-weight:900;font-size:19px;text-decoration:underline;">Diagnostic &amp; Réparation</span></div>
+        
+          
+            <div class="verif-points"><div class="verif-points-list">
+          <div class="verif-point"><div class="verif-check">✓</div><p><strong>Expert en MÉTROLOGIE LÉGALE</strong></p></div>
+          <div class="verif-point"><div class="verif-check">✓</div><p><strong>Certificat officiel</strong> de conformité délivré</p></div>
+          <div class="verif-point"><div class="verif-check">✓</div><p><strong>Suivi automatique</strong> des prochaines échéances</p></div>
+        </div><div class="verif-vignette"><img src="verification-periodique.jpg" alt="Vignette verification"></div></div>
+        <div class="verif-cta">
+          <p><strong>Obligatoire</strong> pour toute balance en transaction commerciale</p>
+          <p style="margin-top:3px;"><strong>verif-balance.fr</strong> · 09 72 22 05 30</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <!-- SÉCURITÉ & AFFICHAGE -->
+  <div class="panel vd-panel">
+    <div class="wall"></div>
+    <div class="overlay"></div>
+    <div class="vd-blob"></div>
+    <div class="vd-bar"></div>
+    <div class="vd-inner">
+      <p class="vd-eyebrow">Protection &amp; Communication</p>
+      <div class="vd-title">Sécurité<br><span>&amp; Affichage</span></div>
+      <div class="filet-sec"></div>
+      <div class="sec-products">
+
+        <div class="sec-card s-cam">
+          <div class="sec-card-img-wrap"><img src="Camera canon.png" alt="Caméra"></div>
+          <div class="sec-card-body">
+            <h3>Vidéosurveillance</h3>
+            <p>Caméras HD intérieures &amp; extérieures, enregistreur NVR, accès à distance sur smartphone.</p>
+            <div class="sec-tags">
+              <span class="sec-tag">Hikvision</span>
+              <span class="sec-tag">HD / 4K</span>
+              <span class="sec-tag hot">Accès distance</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="sec-card s-alrm">
+          <div class="sec-card-img-wrap"><img src="FUMEE.jpg" alt="Canon à fumée"></div>
+          <div class="sec-card-body">
+            <h3>Alarmes &amp; Canon à Fumée</h3>
+            <p>Système anti-intrusion complet : détecteurs de mouvement, sirènes intérieures &amp; extérieures, alerte instantanée sur smartphone 24h/24. Canon à fumée : neutralise tout cambrioleur en <strong style="color:#FF6E40;">10 secondes</strong>. Visibilité zéro, vol impossible.</p>
+            <div class="sec-tags">
+              <span class="sec-tag">24h/24</span>
+              <span class="sec-tag">Alerte smartphone</span>
+              <span class="sec-tag hot">Canon fumée 10s</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="sec-card s-disp">
+          <div class="sec-card-ico">📺</div>
+          <div class="sec-card-body">
+            <h3>Logic Display</h3>
+            <p>Affichage dynamique 100% cloud : gérez vos écrans à distance 24h/24 depuis une seule interface. Menus du jour, promotions, prix en temps réel. Intégration Canva, multi-sites, zéro compétence technique requise.</p>
+            <div class="sec-tags">
+              <span class="sec-tag">100% Cloud</span>
+              <span class="sec-tag">Multi-sites</span>
+              <span class="sec-tag hot">logic-display.fr</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="sec-cta">
+        <p class="sec-cta-t">Devis Gratuit</p>
+        <p>09 72 22 05 30 · logic-display.fr</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+
+<!-- Boutons flottants -->
+<div id="float-widget" style="
+  position:fixed; bottom:24px; right:24px; z-index:9999;
+  display:flex; flex-direction:column; align-items:flex-end; gap:8px;
+  font-family:'Barlow',sans-serif;
+">
+  <!-- Toggle auto-refresh -->
+  <div id="auto-toggle" style="
+    display:flex; align-items:center; gap:8px;
+    background:rgba(10,22,40,0.92); border:1px solid rgba(212,175,55,0.3);
+    padding:6px 14px; border-radius:20px; cursor:pointer;
+    backdrop-filter:blur(10px); user-select:none;
+    transition:all 0.3s ease; opacity:0;
+    transform:translateY(8px); pointer-events:none;
+  " onclick="toggleAuto()">
+    <div id="auto-dot" style="
+      width:8px; height:8px; border-radius:50%;
+      background:#555; transition:background 0.3s;
+    "></div>
+    <span id="auto-label" style="
+      font-size:11px; color:rgba(255,255,255,0.6);
+      letter-spacing:1px; font-weight:700;
+    ">Auto-refresh : Désactivé</span>
+  </div>
+  <!-- Bouton Refresh -->
+  <button id="refresh-btn" onclick="location.reload()" style="
+      width:52px; height:52px; border-radius:50%; border:2px solid rgba(212,175,55,0.5);
+      background:linear-gradient(135deg,#0F2864,#1A4DB5); color:white;
+      font-size:22px; cursor:pointer; display:flex; align-items:center; justify-content:center;
+      box-shadow:0 4px 20px rgba(0,0,0,0.5),0 0 15px rgba(26,77,181,0.3);
+      transition:all 0.3s ease; position:relative;
+    "
+    onmouseenter="this.style.transform='scale(1.1)';this.style.boxShadow='0 6px 25px rgba(0,0,0,0.6),0 0 25px rgba(212,175,55,0.4)';showToggle()"
+    onmouseleave="hideToggleDelay()"
+    title="Rafraichir"
+    >&#x21BB;</button>
+</div>
+
+<script>
+(function(){
+  var autoOn=false, autoTimer=null, hideTimer=null;
+  var toggle=document.getElementById('auto-toggle');
+  var dot=document.getElementById('auto-dot');
+  var label=document.getElementById('auto-label');
+  var btn=document.getElementById('refresh-btn');
+
+  window.showToggle=function(){
+    clearTimeout(hideTimer);
+    toggle.style.opacity='1';
+    toggle.style.transform='translateY(0)';
+    toggle.style.pointerEvents='auto';
+  };
+  window.hideToggleDelay=function(){
+    if(autoOn)return;
+    hideTimer=setTimeout(function(){
+      toggle.style.opacity='0';
+      toggle.style.transform='translateY(8px)';
+      toggle.style.pointerEvents='none';
+    },1500);
+  };
+  toggle.addEventListener('mouseenter',function(){clearTimeout(hideTimer);});
+  toggle.addEventListener('mouseleave',function(){hideToggleDelay();});
+
+  window.toggleAuto=function(){
+    autoOn=!autoOn;
+    if(autoOn){
+      dot.style.background='#00E676';
+      label.style.color='#00E676';
+      label.textContent='Auto-refresh : Activé';
+      btn.style.borderColor='rgba(0,230,118,0.6)';
+      btn.style.animation='spin 1s linear infinite';
+      autoTimer=setInterval(function(){location.reload();},5000);
+      showToggle();
+    }else{
+      clearInterval(autoTimer);
+      dot.style.background='#555';
+      label.style.color='rgba(255,255,255,0.6)';
+      label.textContent='Auto-refresh : Désactivé';
+      btn.style.borderColor='rgba(212,175,55,0.5)';
+      btn.style.animation='none';
+    }
+  };
+})();
+</script>
+<style>
+@keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+@media print{#float-widget{display:none!important;}}
+</style>
+
+</body></html>
